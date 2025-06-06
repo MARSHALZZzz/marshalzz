@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MARSHALZz | KPRP Gang</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: 'Courier New', monospace;
+      color: crimson;
+      height: 200vh;
+      overflow-x: hidden;
+    }
+
+    #welcome-popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .popup-content {
+      background: #111;
+      padding: 30px 40px;
+      border: 2px solid crimson;
+      border-radius: 16px;
+      box-shadow: 0 0 20px crimson;
+      text-align: center;
+      max-width: 90%;
+      width: 320px;
+    }
+
+    .popup-content h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: crimson;
+      text-shadow: 0 0 8px crimson, 0 0 16px crimson;
+    }
+
+    .popup-content p {
+      font-size: 16px;
+      color: yellow;
+      text-shadow: 0 0 4px yellow;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #particle-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      background: #000;
+    }
+
+    .section {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      padding: 40px;
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid crimson;
+      box-shadow: 0 0 30px crimson;
+      border-radius: 16px;
+      text-align: center;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      z-index: 10;
+    }
+    .section.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, -30px);
+    }
+    .title {
+      font-size: 56px;
+      font-weight: bold;
+      text-shadow: 0 0 5px crimson, 0 0 20px crimson;
+      margin-bottom: 10px;
+    }
+    .title:hover {
+      text-shadow: 0 0 20px yellow, 0 0 40px yellow;
+      color: yellow;
+    }
+    .subtitle { font-size: 20px; color: white; text-shadow: 0 0 5px crimson; margin-bottom: 20px; }
+    .about { font-size: 16px; color: #ccc; margin-bottom: 20px; }
+    .about:hover { color: yellow; text-shadow: 0 0 10px yellow; }
+    #recruitment {
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .discord-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px #7289da);
+    }
+    .recruit-text { font-size: 22px; color: white; text-shadow: 0 0 10px crimson; }
+    .join-btn {
+      background: #7289da;
+      border: none;
+      color: white;
+      font-size: 18px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 10px #7289da;
+      transition: transform 0.2s;
+    }
+    .join-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #7289da;
+    }
+    .glow-dot {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: yellow;
+      box-shadow: 0 0 8px yellow, 0 0 16px yellow;
+      pointer-events: none;
+      opacity: 0.8;
+      mix-blend-mode: screen;
+      z-index: 999;
+    }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 0, 0, 0.5);
+      transform: scale(0);
+      animation: ripple-effect 600ms linear;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    @keyframes ripple-effect {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Music Toggle Button */
+    #musicToggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: crimson;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10000;
+      box-shadow: 0 0 12px crimson;
+      transition: all 0.2s ease-in-out;
+    }
+    #musicToggle:hover {
+      background: yellow;
+      color: black;
+      box-shadow: 0 0 20px yellow;
+    }
+
+    /* Fast Scroll Toggle Button */
+    #fastScrollToggle {
+      position: fixed;
+      bottom: 20px;
+      left: 140px;
+      background: crimson;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10000;
+      box-shadow: 0 0 12px crimson;
+      transition: all 0.2s ease-in-out;
+    }
+    #fastScrollToggle:hover {
+      background: yellow;
+      color: black;
+      box-shadow: 0 0 20px yellow;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Welcome popup -->
+<div id="welcome-popup">
+  <div class="popup-content">
+    <h1>👑 MARSHALZz</h1>
+    <p>Scroll down for link...</p>
+  </div>
+</div>
+
+<!-- Background Canvas -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- Main About Section -->
+<div class="section" id="page1">
+  <div class="title">MARSHALZz</div>
+  <div class="subtitle">MRZ NOT JUST A NORMAL GANG IN KDRP</div>
+  <div class="about">
+    <strong>MRZ KPRP GANG</strong> is the most feared crew in the <strong>KPRP SAMP server</strong> — known for raw power, unshakable loyalty, and total street control.<br><br>
+    We’re not just a gang, we’re a legacy in the making. Every member carries the MRZ tag with pride and purpose.<br><br>
+    We don’t follow the rules — <strong>we set them</strong>. Enemies fear us, allies respect us, and the weak? They don’t last long.<br><br>
+    💀 <em>We move in silence. Strike without warning. Rule without mercy.</em><br>
+    <strong>MRZ KPRP GANG</strong> — Built different. Born to dominate.
+  </div>
+</div>
+
+<!-- Recruitment Section -->
+<div class="section hidden" id="recruitment">
+  <img src="https://cdn.icon-icons.com/icons2/2108/PNG/512/discord_icon_130958.png" class="discord-img" alt="Discord">
+  <div class="recruit-text">Recruitment Open - Join Below</div>
+  <a href="https://discord.gg/df9XntDz" class="join-btn" target="_blank">JOIN</a>
+</div>
+
+<!-- Music Player -->
+<audio id="bgMusic" loop>
+  <source src="M𝚊𝚝𝚞𝚜𝚑𝚔𝚊  U𝚕𝚝𝚛𝚊𝚏𝚞𝚗𝚔.mp3" type="audio/mpeg">
+</audio>
+<button id="musicToggle">🔊 Play</button>
+<button id="fastScrollToggle">▶ Fast Scroll</button>
+
+<!-- Glow dots -->
+<div class="glow-dot" id="dot1"></div>
+<div class="glow-dot" id="dot2"></div>
+<div class="glow-dot" id="dot3"></div>
+
+<script>
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.radius = 2 + Math.random() * 1.5;
+    }
+    move() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(255, 0, 0, 0.7)';
+      ctx.shadowColor = 'crimson';
+      ctx.shadowBlur = 8;
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  const particles = Array.from({ length: 80 }, () => new Particle());
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
+    for (let p of particles) {
+      p.move();
+      p.draw();
+    }
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  document.body.addEventListener('click', e => {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    ripple.style.left = `${e.clientX}px`;
+    ripple.style.top = `${e.clientY}px`;
+    ripple.style.width = ripple.style.height = '300px';
+    document.body.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
+  });
+
+  const dots = [document.getElementById('dot1'), document.getElementById('dot2'), document.getElementById('dot3')];
+  let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+  const positions = dots.map(() => ({ x: mouseX, y: mouseY }));
+
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animateDots() {
+    let x = mouseX, y = mouseY;
+    dots.forEach((dot, i) => {
+      const pos = positions[i];
+      pos.x += (x - pos.x) * 0.3;
+      pos.y += (y - pos.y) * 0.3;
+      dot.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+      x = pos.x;
+      y = pos.y;
+    });
+    requestAnimationFrame(animateDots);
+  }
+  animateDots();
+
+  window.addEventListener('scroll', () => {
+    const page1 = document.getElementById('page1');
+    const recruitment = document.getElementById('recruitment');
+    const popup = document.getElementById('welcome-popup');
+    if (popup) popup.style.display = 'none';
+
+    if (window.scrollY > window.innerHeight / 2) {
+      page1.classList.add('hidden');
+      recruitment.classList.remove('hidden');
+    } else {
+      page1.classList.remove('hidden');
+      recruitment.classList.add('hidden');
+    }
+  });
+
+  // Music Toggle Script
+  const bgMusic = document.getElementById("bgMusic");
+  const toggleBtn = document.getElementById("musicToggle");
+  let isPlaying = false;
+  toggleBtn.addEventListener("click", () => {
+    if (isPlaying) {
+      bgMusic.pause();
+      toggleBtn.innerText = "🔇 Off";
+    } else {
+      bgMusic.play();
+      toggleBtn.innerText = "🔊 Play";
+    }
+    isPlaying = !isPlaying;
+  });
+
+  // Fast Scroll Toggle Script
+  const fastScrollBtn = document.getElementById('fastScrollToggle');
+  let fastScrolling = false;
+  let fastScrollInterval;
+
+  function startFastScroll() {
+    fastScrollInterval = setInterval(() => {
+      // Scroll down 100px per interval
+      window.scrollBy(0, 100);
+
+      // Stop if reached bottom
+      if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+        stopFastScroll();
+      }
+    }, 10); // every 10 milliseconds for fast scroll
+  }
+
+  function stopFastScroll() {
+    clearInterval(fastScrollInterval);
+    fastScrolling = false;
+    fastScrollBtn.innerText = "▶ Fast Scroll";
+  }
+
+  fastScrollBtn.addEventListener('click', () => {
+    if (fastScrolling) {
+      stopFastScroll();
+    } else {
+      fastScrolling = true;
+      fastScrollBtn.innerText = "⏸ Stop Scroll";
+      startFastScroll();
+    }
+  });
+</script>
+</body>
+</html>
